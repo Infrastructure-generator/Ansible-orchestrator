@@ -16,3 +16,4 @@
       - "../vars/{{ group }}.tfvars"
     environment:
       TF_VAR_lxdremote_password: "{{ lookup('ansible.builtin.env', 'LXDREMOTE_PASS') }}"
+      TFE_TOKEN: "{{ lookup('ansible.builtin.env', 'TFE_TOKEN') }}"

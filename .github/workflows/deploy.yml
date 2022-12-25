@@ -42,6 +42,14 @@ jobs:
           esac
         done
 
+    - uses: "finnp/create-file-action@master"
+      env:
+        FILE_NAME: ".terraformrc"
+        FILE_DATA: |
+          credentials "app.terraform.io" {
+            token = "${{ secrets.TFE_TOKEN }}"
+          }
+
     - name: Run playbook
       if: ${{ env.group != null }}
       uses: dawidd6/action-ansible-playbook@v2
@@ -52,3 +60,4 @@ jobs:
           --extra-vars group=${{ env.group }}
       env:
         LXDREMOTE_PASS: ${{ secrets.LXDREMOTE_PASS }}
+        TF_CLI_CONFIG_FILE: ".terraformrc"
