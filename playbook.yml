@@ -1,0 +1,18 @@
+- name: Ansible Terraform orchestrator
+  hosts: localhost
+  tasks:
+  - name: Terraform module checkout
+    ansible.builtin.git:
+      repo: https://github.com/Infrastructure-generator/Terraform-module.git
+      dest: tf_module
+
+  - name: Deploy Terraform infrastructure
+    community.general.terraform:
+      project_path: tf_module/
+      force_init: true
+      complex_vars: true
+      workspace: "{{ group }}"
+      variables_files:
+      - "../vars/{{ group }}.tfvars"
+    environment:
+      TF_VAR_lxdremote_password: "{{ lookup('ansible.builtin.env', 'LXDREMOTE_PASS') }}"
